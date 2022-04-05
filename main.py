@@ -49,10 +49,10 @@ def drawCircle(darty=None, radius=0):
    darty.up()
    darty.goto(0, -1)
    darty.down()
-   darty.circle(radius)
+   darty.circle(radius, steps=360) #added by TA
   
 def setUpDartboard(myscreen=None, darty=None):
-  myscreen.setworldcoordinates(-1.5,-1.5,1.5,1.5)
+  myscreen.setworldcoordinates(-2,-2,2,2)
   drawSquare(darty,2,-1,1)
   drawLine(darty,0,-1,0,1)
   drawLine(darty,-1,0,1,0)
@@ -106,6 +106,31 @@ def montePi(darty=None, number_darts=0):
   return pi
   return montePi
 
+def color_choice(color=None):  
+ if color == "red":
+    turtle.fillcolor("red")
+ elif color == "blue":
+    turtle.fillcolor("blue")
+ elif color == "green":
+    turtle.fillcolor("green")
+ elif color == "yellow":
+    turtle.fillcolor("yellow")
+ elif color == "orange":
+    turtle.fillcolor("orange")
+ return color_choice
+
+def target(darty=None, radius=0, color=None):
+ darty.penup()
+ color_choice(darty) 
+ darty.begin_fill()
+ darty.circle(radius)
+ darty.end_fill()
+ darty.penup()
+ darty.left(90)
+ darty.forward(1)
+ darty.right(90)
+ darty.pendown()
+ return target
 
 #########################################################
 #         Do not alter any code below here              #
@@ -130,13 +155,29 @@ def main():
     for i in range(10):
         throwDart(darty)
     print("\tPart A Complete...")
+  
     print("=========== Part B ===========")
     darty.clear()
     setUpDartboard(window, darty)
     playDarts(darty)
     print("\tPart B Complete...")
-    # Keep the window up until dismissed
+
     print("=========== Part C ===========")
+    darty.clear()
+    window = turtle.Screen()
+    radius = 5
+    darty.home()
+    color = {"red", "blue", "green", "yellow", "orange"}
+    color_choice(color)
+    target(darty, radius, color)
+    for i in range(4):
+     color = input("What color would you like to use: ")
+     drawCircle (darty,radius)
+     radius = radius - 1
+    print("\tPart C Complete...") 
+  
+    # Keep the window up until dismissed
+    print("=========== Part D ===========")
     darty.clear()
     setUpDartboard(window, darty)
     
@@ -149,7 +190,7 @@ def main():
     number_darts = int(input("\nPlease input the number of darts to be thrown in the simulation:  "))
     approx_pi = montePi(darty, number_darts)
     print("\nThe estimation of pi using "+str(number_darts)+" virtual darts is " + str(approx_pi))
-    print("\tPart C Complete...")
+    print("\tPart D Complete...")
     # Don't hide or mess with window while it's 'working'
     window.exitonclick()
 
